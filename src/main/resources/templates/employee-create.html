@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<!--div th:replace="~{fragments/navbar :: navbar}"></div-->
+
+<!-- Main Content -->
+<main class="container-fluid dashboard-container">
+    <div class="container mt-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <h5>Employee Information</h5>
+            </div>
+
+            <div class="card-body">
+
+            <form th:object="${employee}" method="post"
+                  th:action="@{/employee/save}">
+
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input th:field="*{firstName}"
+                           required class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input th:field="*{lastName}"
+                           required class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input th:field="*{email}"
+                           type="email"
+                           required class="form-control">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Department</label>
+
+                    <select name="departmentId" class="form-select" required>
+                        <option value="">-- Select Department --</option>
+                        <option th:each="dept : ${departments}"
+                                th:value="${dept.id}"
+                                th:text="${dept.departmentName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hire Date</label>
+                    <input th:field="*{hireDate}" type="date"  th:attr="max=${today}"
+                           class="form-control">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Is Active</label>
+
+                    <input th:field="*{isActive}"
+                           type="checkbox">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Save Employee
+                </button>
+
+                <a th:href="@{/employee}" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>

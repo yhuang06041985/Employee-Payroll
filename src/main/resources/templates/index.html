@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Main Content -->
+<main class="container-fluid dashboard-container">
+
+    <div class="page-heading">
+        <h2>Dashboard</h2>
+        <p>Welcome to the Employee Payroll Management System.</p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="summary-card">
+                <h6>Total Employees</h6>
+                <h2>0</h2>
+                <p>Active employee records</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="summary-card">
+                <h6>Departments</h6>
+                <h2>0</h2>
+                <p>Registered departments</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="summary-card">
+                <h6>Monthly Payroll</h6>
+                <h2>$0.00</h2>
+                <p>Current payroll amount</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="summary-card">
+                <h6>Pending Payroll</h6>
+                <h2>0</h2>
+                <p>Payroll items awaiting processing</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="content-panel mt-4">
+        <h4>Payroll Management</h4>
+        <p>
+            Manage employee information, salary details,
+            payroll transactions, and department records
+            from one centralized application.
+        </p>
+    </div>
+
+</main>
+
+<footer class="app-footer">
+    Employee Payroll System
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

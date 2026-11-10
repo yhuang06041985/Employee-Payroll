@@ -1,0 +1,27 @@
+﻿target/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db
+
+# Local and Azure database credentials
+application-local.properties
+application-azure.properties
+
+# Gradle cache
+.gradle/
+
+# Runtime logs
+payroll-run.txt
+
+# Unused Gradle configuration
+.gradle/
+build.gradle
+settings.gradle
+gradle/
+gradlew
+gradlew.bat
+

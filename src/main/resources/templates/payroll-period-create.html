@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<!--div th:replace="~{fragments/navbar :: navbar}"></div-->
+
+<!-- Main Content -->
+<main class="container-fluid dashboard-container">
+    <div class="container mt-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <h5>Payroll Period Information</h5>
+            </div>
+
+            <div class="card-body">
+                <form th:object="${payrollperiod}" method="post"
+                      th:action="@{/payrollperiod/save}">
+                    <div class="mb-3">
+                        <label class="form-label">Period Name</label>
+                        <input th:field="*{periodName}" type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input th:field="*{startDate}" type="date" class="form-control" required>
+                        <div class="text-danger"
+                             th:errors="*{startDate}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"> End Date </label>
+                        <input th:field="*{endDate}" type="date" class="form-control" required>
+                        <div class="text-danger"
+                             th:errors="*{endDate}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"> Pay Date</label>
+                        D
+                        <div class="text-danger"
+                             th:errors="*{payDate}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="reset" class="btn btn-info"> Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+
+        const start = document.getElementById("startDate").value;
+        const end = document.getElementById("endDate").value;
+        const pay = document.getElementById("payDate").value;
+
+        if (end <= start) {
+            alert("End Date must be greater than Start Date.");
+            e.preventDefault();
+        }
+        else if (pay <= end) {
+            alert("Pay Date must be greater than End Date.");
+            e.preventDefault();
+        }
+    });
+</script>
+</body>

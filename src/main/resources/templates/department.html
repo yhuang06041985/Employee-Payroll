@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<!--div th:replace="~{fragments/navbar :: navbar}"></div-->
+
+<!-- Main Content -->
+    <main class="container-fluid dashboard-container">
+        <div class="container mt-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+                    <h5>Department Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form th:object="${department}" method="post"
+                          th:action="@{/department/save}">
+                        <div class="mb-3">
+                            <label class="form-label"> Department Name </label>
+                            <input th:field="*{departmentName}"
+                                   class="form-control" required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label"> Department Code </label>
+                            <input th:field="*{departmentCode}"
+                                   class="form-control" >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cost Center</label>
+
+                            <input th:field="*{costCenter}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary"> Create</button>
+                            &nbsp;<button type="reset" class="btn btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+    </main>
+</body>

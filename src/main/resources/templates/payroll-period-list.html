@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<!--div th:replace="~{fragments/navbar :: navbar}"></div-->
+
+<!-- Main Content -->
+<main class="container-fluid dashboard-container">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Payroll Period List</h2>
+            <a th:href="@{/department/new}" class="btn btn-info">
+                Create Payroll period list
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Pay Name</th>
+                    <th>Start Datee</th>
+                    <th>End Date</th>
+                    <th>Pay Date</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each = "item : ${payrollperiodlist}">
+                    <td th:text="${item.periodName}"></td>
+                    <td th:text="${item.startDate}"></td>
+                    <td th:text="${item.endDate}"></td>
+                    <td th:text="${item.payDate}"></td>
+                    <td>
+                        <a th:href="@{/payrollperiod/edit/{id}(id=${item.id})}"
+                           class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
