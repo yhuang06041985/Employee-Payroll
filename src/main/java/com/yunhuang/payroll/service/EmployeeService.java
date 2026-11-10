@@ -5,6 +5,9 @@ import com.yunhuang.payroll.repository.EmployeeRepository;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+//pagination
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,8 +22,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployee() {
-        return employeeRepository.findAll(
-                Sort.by(Sort.Direction.ASC, "firstName"));
+        return employeeRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName"));
     }
 
     public List<Employee> getAllEmployeeByDepartment(Integer departmentId) {
@@ -71,5 +73,9 @@ public class EmployeeService {
     public void removeEmployee(Integer id)
     {
         employeeRepository.deleteById(id);
+    }
+
+    public Page<Employee> getAllEmployees(Pageable pageable) {
+        return employeeRepository.findAll(pageable);
     }
 }

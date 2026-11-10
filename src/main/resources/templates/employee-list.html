@@ -59,6 +59,64 @@
 
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+
+                <div>
+                    Showing
+                    <span th:text="${employeePage.numberOfElements}"></span>
+                    of
+                    <span th:text="${employeePage.totalElements}"></span>
+                    employees
+
+                    (Page
+                    <span th:text="${employeePage.number + 1}"></span>
+                    of
+                    <span th:text="${employeePage.totalPages}"></span>)
+                </div>
+
+                <nav>
+                    <ul class="pagination mb-0">
+
+                        <!-- Previous -->
+                        <li class="page-item"
+                            th:classappend="${employeePage.first} ? 'disabled'">
+
+                            <a class="page-link"
+                               th:href="@{/employee/list(page=${employeePage.number - 1})}">
+                                Previous
+                            </a>
+                        </li>
+
+                        <!-- Page Numbers -->
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, employeePage.totalPages - 1)}"
+                            th:classappend="${i == employeePage.number} ? 'active'">
+
+                            <a class="page-link"
+                               th:href="@{/employee/list(page=${i})}"
+                               th:text="${i + 1}">
+                            </a>
+                        </li>
+
+                        <!-- Next -->
+                        <li class="page-item"
+                            th:classappend="${employeePage.last} ? 'disabled'">
+
+                            <a class="page-link"
+                               th:href="@{/employee/list(page=${employeePage.number + 1})}">
+                                Next
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
+            </div>
+
+
+
         </div>
     </div>
 

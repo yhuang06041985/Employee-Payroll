@@ -10,6 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.yunhuang.payroll.service.DepartmentService;
 
+// pagination
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import java.time.LocalDate;
 
 @Controller
@@ -51,8 +57,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/list")
-    public String employeeList(Model model) {
-        model.addAttribute("employees", employeeService.getAllEmployee());
+    public String listEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                2,  // determine pagesize here
+                Sort.by("firstName").ascending()
+        );
+
+        Page<Employee> employeePage =
+                employeeService.getAllEmployees(pageable);
+
+        model.addAttribute("employeePage", employeePage);
+        model.addAttribute("employees", employeePage.getContent());
+
         return "employee-list";
     }
 
@@ -95,6 +115,8 @@ public class EmployeeController {
         employeeService.removeEmployee(id);
         return "redirect:/employee/list";
     }
+
+
 }
 
 
