@@ -78,4 +78,11 @@ public class EmployeeService {
     public Page<Employee> getAllEmployees(Pageable pageable) {
         return employeeRepository.findAll(pageable);
     }
+
+    public Page<Employee> searchEmployees( String firstName, LocalDate startDate,
+            LocalDate endDate, Integer departmentId, Pageable pageable)
+    {
+        return employeeRepository.searchEmployees(firstName, startDate, endDate, departmentId, pageable);
+    }
+
 }

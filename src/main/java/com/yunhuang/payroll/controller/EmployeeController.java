@@ -4,6 +4,7 @@ import com.yunhuang.payroll.model.Employee;
 import com.yunhuang.payroll.model.PayrollPeriod;
 import com.yunhuang.payroll.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,7 +57,7 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
 
-    @GetMapping("/list")
+   /* @GetMapping("/list")
     public String listEmployees(
             @RequestParam(defaultValue = "0") int page,
             Model model) {
@@ -74,7 +75,7 @@ public class EmployeeController {
         model.addAttribute("employees", employeePage.getContent());
 
         return "employee-list";
-    }
+    } */
 
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable("id") Integer employeeId, Model model) {
@@ -114,6 +115,53 @@ public class EmployeeController {
     {
         employeeService.removeEmployee(id);
         return "redirect:/employee/list";
+    }
+
+
+    @GetMapping("/list")
+    public String listEmployees(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) Integer departmentId,
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        // Convert empty strings to null
+        if (firstName != null && firstName.isBlank()) {
+            firstName = null;
+        }
+
+        Pageable pageable = PageRequest.of(
+                page,
+                2,
+                Sort.by(Sort.Direction.ASC, "firstName")
+        );
+
+        Page<Employee> employeePage =
+                employeeService.searchEmployees(
+                        firstName,
+                        startDate,
+                        endDate,
+                        departmentId,
+                        pageable
+                );
+
+        model.addAttribute("employeePage", employeePage);
+        model.addAttribute("employees", employeePage.getContent());
+
+        // Preserve search criteria
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("departmentId", departmentId);
+
+        model.addAttribute("departments",
+                departmentService.getDepartments());
+
+        return "employee-list";
     }
 
 
