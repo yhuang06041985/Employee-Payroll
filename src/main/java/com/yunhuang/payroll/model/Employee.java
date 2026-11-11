@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import com.yunhuang.payroll.model.Department;
 import java.util.List;
 import java.time.LocalDate;
-
+import com.yunhuang.payroll.model.PayRate;
 @Entity
 @Table(name="employees")
 public class Employee {
@@ -18,6 +18,9 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "departmentId", nullable = false)
     private Department department;
+
+    @OneToMany(mappedBy = "employee")
+    List<PayRate> payRates;
 
     private LocalDate hireDate;
     private boolean isActive;

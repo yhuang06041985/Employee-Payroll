@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.yunhuang.payroll.model.EmployeeSearchDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,6 +50,27 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
             @Param("endDate") LocalDate endDate,
             @Param("departmentId") Integer departmentId,
             Pageable pageable
+    );
+
+    @Query("""
+     SELECT new  com.yunhuang.payroll.model.EmployeeSearchDTO (
+            e.id,
+            CONCAT(e.firstName, ' ', e.lastName) 
+          )
+    FROM Employee e
+    JOIN e.department d
+    WHERE
+        (:firstName IS NULL
+            OR LOWER(e.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')))
+        AND (:lastName IS NULL
+            OR LOWER(e.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))
+        AND (:departmentId IS NULL
+            OR d.id = :departmentId)
+    """)
+    List<EmployeeSearchDTO> searchEmployeesName(
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("departmentId") Integer departmentId
     );
 
 }

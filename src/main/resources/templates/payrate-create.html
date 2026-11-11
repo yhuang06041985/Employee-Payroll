@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Payroll System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<!-- <div th:replace="~{fragments/navbar :: navbar}"></div> -->
+
+<!-- Main Content -->
+<main class="container-fluid dashboard-container">
+
+    <div class="container mt-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <h5>Payrate Information</h5>
+            </div>
+
+            <div class="card-body">
+
+                <form th:object="${payrate}"
+                      method="post"
+                      th:action="@{/payrate/save}">
+
+                    <!-- Employee Selection -->
+                    <div class="mb-3">
+
+<!--                        <label class="form-label">Employee</label>-->
+
+<!--                        <div class="input-group">-->
+
+                            <input id="empName"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="Select an Employee"
+                                   readonly>
+
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    onclick="openEmployeeSearch()">
+                                Search Employee
+                            </button>
+
+                        </div>
+
+                        <input type="hidden"
+                               id="employeeId"
+                               name="employee.id">
+
+
+                    <!-- Rate Type -->
+                    <div class="mb-3">
+
+                        <label class="form-label">Rate Type</label>
+
+                        <input class="form-control"
+                               th:field="*{rateType}">
+
+                    </div>
+
+                    <!-- Base Rate -->
+                    <div class="mb-3">
+
+                        <label class="form-label">Base Rate</label>
+
+                        <input th:field="*{baseRate}"
+                               class="form-control">
+
+                    </div>
+
+                    <!-- Effective Date -->
+                    <div class="mb-3">
+
+                        <label class="form-label">Effective Date</label>
+
+                        <input type="date"
+                               th:field="*{effectiveDate}"
+                               class="form-control">
+
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="mb-3">
+
+                        <label class="form-label">End Date</label>
+
+                        <input type="date"
+                               th:field="*{endDate}"
+                               class="form-control">
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="mt-4">
+
+                        <button type="submit"
+                                class="btn btn-success">
+                            Save Payrate
+                        </button>
+
+                        <a th:href="@{/payrate/list}"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+    function openEmployeeSearch() {
+
+        window.open(
+            '/employee/search-popup',
+            'employeeSearch',
+            'width=900,height=650,resizable=yes,scrollbars=yes'
+        );
+
+    }
+
+</script>
+
+</body>
+</html>

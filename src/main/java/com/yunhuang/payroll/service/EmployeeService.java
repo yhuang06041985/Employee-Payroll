@@ -1,6 +1,7 @@
 package com.yunhuang.payroll.service;
 
 import com.yunhuang.payroll.model.Employee;
+import com.yunhuang.payroll.model.EmployeeSearchDTO;
 import com.yunhuang.payroll.repository.EmployeeRepository;
 
 import org.springframework.data.domain.Sort;
@@ -85,4 +86,9 @@ public class EmployeeService {
         return employeeRepository.searchEmployees(firstName, startDate, endDate, departmentId, pageable);
     }
 
+    public List<EmployeeSearchDTO> getEmployeesName(String firstName, String lastName,
+                                                    Integer departmentId)
+    {
+        return employeeRepository.searchEmployeesName(firstName, lastName, departmentId);
+    }
 }

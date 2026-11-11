@@ -1,6 +1,7 @@
 package com.yunhuang.payroll.controller;
 import com.yunhuang.payroll.model.Department;
 import com.yunhuang.payroll.model.Employee;
+import com.yunhuang.payroll.model.EmployeeSearchDTO;
 import com.yunhuang.payroll.model.PayrollPeriod;
 import com.yunhuang.payroll.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("employee")
@@ -164,6 +166,37 @@ public class EmployeeController {
         return "employee-list";
     }
 
+    @GetMapping("/search-popup")
+    public String goToEmployeeSearch(Model model)
+    {
+        model.addAttribute("employee", new Employee());
+        model.addAttribute("departments", departmentService.getDepartments());
+        return "employeeSearch";
+    }
+
+
+    @GetMapping("/search-employee-name")
+    public String getEmployeeName(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) Integer departmentId,
+            Model model) {
+
+        // Convert empty strings to null
+        if (firstName != null && firstName.isBlank()) {
+            firstName = null;
+        }
+        List<EmployeeSearchDTO> EmployeeSearchDTO = employeeService.getEmployeesName(firstName, lastName, departmentId);
+        model.addAttribute("EmployeeSearchDTO", EmployeeSearchDTO);
+        // Preserve search criteria
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+
+        model.addAttribute("departments",
+                departmentService.getDepartments());
+
+        return "employeeSearch";
+    }
 
 }
 
