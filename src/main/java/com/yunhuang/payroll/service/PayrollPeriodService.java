@@ -45,4 +45,9 @@ public class PayrollPeriodService {
         return payrollPeriodRepository.save(updatePayrollPeriod);
     }
 
+    public PayrollPeriod getCurrentPeiod()
+    {
+        return payrollPeriodRepository.findCurrentPayperiod();
+    }
+
 }

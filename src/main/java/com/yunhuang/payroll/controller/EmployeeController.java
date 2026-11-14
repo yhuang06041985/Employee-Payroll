@@ -59,25 +59,6 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
 
-   /* @GetMapping("/list")
-    public String listEmployees(
-            @RequestParam(defaultValue = "0") int page,
-            Model model) {
-
-        Pageable pageable = PageRequest.of(
-                page,
-                2,  // determine pagesize here
-                Sort.by("firstName").ascending()
-        );
-
-        Page<Employee> employeePage =
-                employeeService.getAllEmployees(pageable);
-
-        model.addAttribute("employeePage", employeePage);
-        model.addAttribute("employees", employeePage.getContent());
-
-        return "employee-list";
-    } */
 
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable("id") Integer employeeId, Model model) {

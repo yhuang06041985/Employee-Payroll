@@ -1,8 +1,10 @@
 package com.yunhuang.payroll.controller;
 
 import com.yunhuang.payroll.model.PayRate;
+import com.yunhuang.payroll.model.PayRateDto;
 import com.yunhuang.payroll.service.EmployeeService;
 import com.yunhuang.payroll.service.PayRateService;
+import com.yunhuang.payroll.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.hibernate.metamodel.mapping.Bindable;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("payrate")
@@ -18,10 +21,13 @@ public class PayRateController {
 
     private final PayRateService payRateService;
     private final EmployeeService employeeService;
+    private final DepartmentService departmentService;
 
-    public PayRateController(PayRateService payRateService, EmployeeService employeeService) {
+    public PayRateController(PayRateService payRateService, EmployeeService employeeService,
+                             DepartmentService departmentService) {
         this.payRateService = payRateService;
         this.employeeService = employeeService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/new")
@@ -42,7 +48,7 @@ public class PayRateController {
         }
         PayRate obj = payRateService.savePayRate(payRate);
 
-        return "redirect:/";
+        return "redirect:/payrate/list";
     }
 
 
@@ -62,7 +68,7 @@ public class PayRateController {
 
     @PostMapping("/update")
     public String updatePayrate(
-            @PathVariable("id") Integer payRateId,
+            @RequestParam("id") Integer payRateId,
             @Valid @ModelAttribute("payrate") PayRate payRate,
             BindingResult result) {
 
@@ -73,7 +79,26 @@ public class PayRateController {
 
         PayRate obj = payRateService.updatePayRate(payRateId, payRate);
 
-        return "redirect:/";
+        return "redirect:/payrate/list";
+    }
+
+    @GetMapping("/list")
+    public String displayPayrateList(
+            @RequestParam(required = false) Integer departmentid,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            Model model
+    )
+    {
+        List<PayRateDto> payRateDtoList;
+        if (firstName != null && lastName != null)
+            payRateDtoList = payRateService.getPayrateByEmployee(firstName, lastName, departmentid);
+        else
+            payRateDtoList = payRateService.getRecentDatePayRate(departmentid, firstName, lastName);
+        model.addAttribute("department", departmentService.getDepartments());
+        model.addAttribute("payratelist", payRateDtoList);
+        model.addAttribute("department", departmentService.getDepartments());
+        return "payrate-list";
     }
 
 }

@@ -22,6 +22,9 @@ public class PayrollPeriod {
     @NotBlank(message = "Period Name is required")
     private String periodName;
 
+    @OneToMany(mappedBy = "payrollPeriod")
+    List<PayrollRecord> payrollRecords;
+
     @NotNull(message = "Start Date is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;

@@ -22,6 +22,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     List<PayRate> payRates;
 
+    @OneToMany(mappedBy = "employee")
+    List<PayrollRecord> payrollRecords;
+
     private LocalDate hireDate;
     private boolean isActive;
 

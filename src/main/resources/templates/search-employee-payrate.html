@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Search</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<main class="container-fluid dashboard-container">
+    <div class="container mt-4">
+
+        <h4 class="mb-3">Search Employee</h4>
+
+        <!-- Search Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <form th:action="@{/payrollrecord/search-employee-payrate}"
+                      method="get">
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5">
+                            <label class="form-label">First Name</label>
+                            <input type="text"
+                                   name="firstName"
+                                   class="form-control"
+                                   th:value="${firstName}">
+                        </div>
+
+                        <div class="col-md-5">
+                            <label class="form-label">Last Name</label>
+                            <input type="text"
+                                   name="lastName"
+                                   class="form-control"
+                                   th:value="${lastName}">
+                        </div>
+
+                        <div class="col-md-5 mt-3">
+                            <label class="form-label">Department</label>
+
+                            <select name="departmentId"
+                                    class="form-select">
+
+                                <option value="">-- Select Department --</option>
+
+                                <option th:each="dept : ${departments}"
+                                        th:value="${dept.id}"
+                                        th:text="${dept.departmentName}"
+                                        th:selected="${dept.id == departmentId}">
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 mt-3">
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Search
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Search Results</h5>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-striped table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="emp : ${employeePayrateDtos}">
+
+                        <td th:text="${emp.employeeId}"></td>
+
+                        <td th:text="${emp.fullName}"></td>
+
+                        <td>
+                            <button type="button"
+                                    class="btn btn-primary btn-sm"
+                                    th:attr="data-id=${emp.employeeId},
+                                 data-name=${emp.fullName},
+                                 data-payrate-id=${emp.payrateId},
+                                 data-paytype=${emp.rateType},
+                                 data-baserate=${emp.baseRate}"
+                                    onclick="selectEmployee(this)">
+                                Select
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(employeePayrateDtos)}">
+                        <td colspan="3" class="text-center">
+                            No employees found.
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    function selectEmployee(button) {
+
+        if (window.opener && !window.opener.closed) {
+
+            window.opener.setEmployee(
+                button.dataset.id,
+                button.dataset.name,
+                button.dataset.payrateId,
+                button.dataset.paytype,
+                button.dataset.baserate
+            );
+
+            window.close();
+        }
+    }
+</script>
+
+</body>
+</html>

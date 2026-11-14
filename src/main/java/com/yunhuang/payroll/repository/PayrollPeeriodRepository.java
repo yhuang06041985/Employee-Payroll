@@ -16,4 +16,11 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PayrollPeeriodRepository
     extends JpaRepository<PayrollPeriod, Integer> {
+
+    @Query(value= """
+     select * from PayrollPeriods
+        where startdate <= getDate()
+        and endDate >  getDate()
+""", nativeQuery = true)
+    PayrollPeriod findCurrentPayperiod();
 }

@@ -5,16 +5,19 @@ import com.yunhuang.payroll.model.Employee;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="payrates")
 public class PayRate {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
     @ManyToOne
     @JoinColumn(name = "employeeId", nullable = false)
     private Employee employee;
+
     private String rateType;
     private BigDecimal baseRate;
     private LocalDate effectiveDate;

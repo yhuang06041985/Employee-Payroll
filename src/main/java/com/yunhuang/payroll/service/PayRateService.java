@@ -2,8 +2,11 @@ package com.yunhuang.payroll.service;
 
 import com.yunhuang.payroll.model.Employee;
 import com.yunhuang.payroll.model.PayRate;
+import com.yunhuang.payroll.model.PayRateDto;
 import com.yunhuang.payroll.repository.PayRateRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PayRateService {
@@ -29,6 +32,7 @@ public class PayRateService {
             //obj.setEmployee(employee);
             obj.setEndDate(payRate.getEndDate());
             obj.setRateType(payRate.getRateType());
+            obj.setBaseRate(payRate.getBaseRate());
             payRateRepository.save(obj);
             return obj;
         }
@@ -38,5 +42,16 @@ public class PayRateService {
     public PayRate getPayRate(Integer id)
     {
         return payRateRepository.findById(id).orElse(null);
+    }
+
+    //get payrate has full name, departcode, payrate and very recently effective date
+    public List<PayRateDto> getRecentDatePayRate(Integer deptId, String firstName, String lastName)
+    {
+        return payRateRepository.findLatestPayRatesByDepartment(deptId, firstName, lastName);
+    }
+
+    public List<PayRateDto> getPayrateByEmployee(String firstName, String lastName, Integer departmentId)
+    {
+        return payRateRepository.findPayRateByEmployee(firstName, lastName, departmentId);
     }
 }
