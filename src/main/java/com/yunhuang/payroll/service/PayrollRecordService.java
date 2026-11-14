@@ -169,4 +169,14 @@ public class PayrollRecordService {
         return payrollRecordRepository.findEmployeePayrate(
                 firstName, lastName, deptId);
     }
+
+    public List<PayrollSummaryDto> getPayrollSummary(String firstName, String lastName, Integer departmentId)
+    {
+        return payrollRecordRepository.findPayrollSummary(firstName, lastName, departmentId);
+    }
+
+    public List<PayrollSummaryDto> getDetailSummaryPayroll(String firstName, String lastName)
+    {
+        return payrollRecordRepository.findDetailSummaryPayroll(firstName, lastName);
+    }
 }
